@@ -154,12 +154,15 @@ export async function webhookStripe(request, response) {
   console.log("event", event.type);
 
   switch (event.type) {
-    case 'checkout.session.completed': // ✅ ده الحدث الصحيح
+    case 'checkout.session.completed': // 
 
       const session = event.data.object;
       console.log('Session metadata', session.metadata);
 
       const userId = session.metadata?.userId;
+
+      console.log("userId", userId);
+      
 
       const lineItems = await Stripe.checkout.sessions.listLineItems(session.id);
 
@@ -174,14 +177,13 @@ export async function webhookStripe(request, response) {
       const order = await OrderModel.insertMany(orderProduct);
 
       if (order && order.length > 0) {
-        // 🟢 مسح الكارت من اليوزر
         await UserModel.findByIdAndUpdate(userId, {
           shopping_cart: [],
         });
 
-        // 🟢 مسح الكارت من جدول CartProductModel
+        
         const removeCartProductDB = await CartProductModel.deleteMany({ userId: userId });
-        console.log("تم حذف المنتجات من الكارت:", removeCartProductDB.deletedCount);
+        console.log("hadhf almuntajat min alkarti:", removeCartProductDB.deletedCount);
       }
 
       break;

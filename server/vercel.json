@@ -1,9 +1,9 @@
 {
     "version" : 2,
     "name" : "Blinkit",
-    "builda" : [
+    "builds" : [
         {
-            "src" : "./app.js",
+            "src" : "app.js",
             "use" : "@vercel/node"
         }
     ],
