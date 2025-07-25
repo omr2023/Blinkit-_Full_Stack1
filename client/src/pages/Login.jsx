@@ -18,7 +18,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,12 +48,12 @@ const Login = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        localStorage.setItem('accessToken',response.data.data.accesstoken)
-        localStorage.setItem('refreshToken',response.data.data.refreshToken)
+        localStorage.setItem("accessToken", response.data.data.accesstoken);
+        localStorage.setItem("refreshToken", response.data.data.refreshToken);
 
-        const userDetails = await fetchUserDetails()
+        const userDetails = await fetchUserDetails();
 
-        dispatch(setUserDetails(userDetails.data))
+        dispatch(setUserDetails(userDetails.data));
 
         setData({
           email: "",

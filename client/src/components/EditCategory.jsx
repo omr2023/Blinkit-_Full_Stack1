@@ -1,14 +1,14 @@
-import React from 'react'
-import { useState } from 'react';
-import uploadImage from '../utils/UploadImage';
-import Axios from '../utils/Axios';
-import SummaryApi from '../common/SummarApi';
-import  toast from "react-hot-toast";
-import AxiosToastError from "../utils/AxiosToastError"
-import { IoClose } from 'react-icons/io5';
-const EditCategory = ({ close , fetchData , data : categoryData}) => {
-  const [data , setData] = useState({
-    _id : categoryData._id,
+import React from "react";
+import { useState } from "react";
+import uploadImage from "../utils/UploadImage";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummarApi";
+import toast from "react-hot-toast";
+import AxiosToastError from "../utils/AxiosToastError";
+import { IoClose } from "react-icons/io5";
+const EditCategory = ({ close, fetchData, data: categoryData }) => {
+  const [data, setData] = useState({
+    _id: categoryData._id,
     name: categoryData.name,
     image: categoryData.image,
   });
@@ -27,40 +27,38 @@ const EditCategory = ({ close , fetchData , data : categoryData}) => {
     });
   };
 
-
-      const handleUploadCategoryImage = async (e) => {
+  const handleUploadCategoryImage = async (e) => {
     const file = e.target.files[0];
     if (!file) {
       return;
     }
 
-    const response = await uploadImage(file)
+    const response = await uploadImage(file);
     // const { data: ImageResponse } = response;
-      const ImageResponse = response;
-      if(!ImageResponse?.data?.url){
-        console.error("Image response is not valid", ImageResponse);
-      }
-        setIsLoading(false);
-    
-    setData((preve) =>{
+    const ImageResponse = response;
+    if (!ImageResponse?.data?.url) {
+      console.error("Image response is not valid", ImageResponse);
+    }
+    setIsLoading(false);
+
+    setData((preve) => {
       return {
         ...preve,
-        image: ImageResponse.data.url
+        image: ImageResponse.data.url,
       };
-    })
+    });
   };
 
-
-    const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true);
       const response = await Axios({
         ...SummaryApi.updateCategory,
-        data: data
-      })
+        data: data,
+      });
       const { data: responseData } = response;
-      if(responseData.success){
+      if (responseData.success) {
         toast.success("Category added successfully");
         setData({
           name: "",
@@ -71,16 +69,16 @@ const EditCategory = ({ close , fetchData , data : categoryData}) => {
       }
       setIsLoading(true);
     } catch (error) {
-      AxiosToastError(error); 
-    }finally{
+      AxiosToastError(error);
+    } finally {
       setIsLoading(false);
     }
   };
   return (
-    <section className='fixed top-0 left-0 w-full h-full bg-black/50 z-50 flex items-center justify-center'>
-    <div className="bg-white max-w-4xl w-full p-4 rounded">
+    <section className="fixed top-0 left-0 w-full h-full bg-black/50 z-50 flex items-center justify-center">
+      <div className="bg-white max-w-4xl w-full p-4 rounded">
         <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Edit Category</h2>
+          <h2 className="text-lg font-semibold">Edit Category</h2>
           <button onClick={close} className="w-fit block ml-auto">
             <IoClose size={25} />
           </button>
@@ -104,18 +102,15 @@ const EditCategory = ({ close , fetchData , data : categoryData}) => {
             <p>Image</p>
             <div className="flex gap-5 flex-col lg:flex-row items-center">
               <div className="border bg-blue-50 h-36 w-full lg:w-36 flex items-center justify-center rounded">
-
-                {
-                  data.image ? (
-                    <img 
+                {data.image ? (
+                  <img
                     src={data.image}
-                    alt="category" 
+                    alt="category"
                     className="h-full w-full object-scale-down"
-                    />
-                  ):(
-                    <span className="text-sm text-neutral-500">No Image</span>
-                  )
-                }
+                  />
+                ) : (
+                  <span className="text-sm text-neutral-500">No Image</span>
+                )}
               </div>
               <label htmlFor="uploadCategoryImage" className="cursor-pointer">
                 <div
@@ -124,12 +119,10 @@ const EditCategory = ({ close , fetchData , data : categoryData}) => {
                                 px-4 py-1 rounded cursor-pointer
                                 `}
                 >
-                    {
-                        isLoading ? "Uploading..." : "Upload Image"
-                    }
+                  {isLoading ? "Uploading..." : "Upload Image"}
                 </div>
                 <input
-                disabled={!data.name}
+                  disabled={!data.name}
                   type="file"
                   name="image"
                   id="uploadCategoryImage"
@@ -139,19 +132,24 @@ const EditCategory = ({ close , fetchData , data : categoryData}) => {
               </label>
             </div>
           </div>
-                 <button
-                    className={`
-                    ${data.name && data.image ? "bg-primary-200 hover:bg-primary-100" : "bg-gray-300 "}
+          <button
+            className={`
+                    ${
+                      data.name && data.image
+                        ? "bg-primary-200 hover:bg-primary-100"
+                        : "bg-gray-300 "
+                    }
                     py-2    
                     font-semibold 
                     `}
-                > Update category</button>
-
+          >
+            {" "}
+            Update category
+          </button>
         </form>
-
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default EditCategory
+export default EditCategory;

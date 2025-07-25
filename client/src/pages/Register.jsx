@@ -45,17 +45,16 @@ const Register = () => {
         toast.error(response.data.message);
       }
 
-      if(response.data.success){
-        toast.success(response.data.message)
-                        setData({
-                    name : "",
-                    email : "",
-                    password : "",
-                    confirmPassword : ""
-                })
-                navigate("/login")
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        navigate("/login");
       }
-
     } catch (error) {
       AxiosToastError(error);
     }
@@ -144,7 +143,13 @@ const Register = () => {
         </form>
 
         <p>
-          Already have account ? <Link to={"/login"} className="font-semibold text-green-700 hover:text-green-600 tran">Login</Link>
+          Already have account ?{" "}
+          <Link
+            to={"/login"}
+            className="font-semibold text-green-700 hover:text-green-600 tran"
+          >
+            Login
+          </Link>
         </p>
       </div>
     </section>

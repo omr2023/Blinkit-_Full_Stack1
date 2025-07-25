@@ -10,14 +10,14 @@ const OtpVerification = () => {
 
   const navigate = useNavigate();
   const inputRef = useRef([]);
-  const location = useLocation()
-  console.log("location", location)
-  useEffect(()=>{
-    if(!location?.state?.email){
-      navigate("/forgot-password")
+  const location = useLocation();
+  console.log("location", location);
+  useEffect(() => {
+    if (!location?.state?.email) {
+      navigate("/forgot-password");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const valideValue = data.every((el) => el);
 
   const handleSubmit = async (e) => {
@@ -26,10 +26,10 @@ const OtpVerification = () => {
     try {
       const response = await Axios({
         ...SummaryApi.forgot_password_otp,
-                        data : {
-                    otp : data.join(""),
-                    email : location?.state?.email
-                        }
+        data: {
+          otp: data.join(""),
+          email: location?.state?.email,
+        },
       });
 
       if (response.data.error) {
@@ -39,12 +39,12 @@ const OtpVerification = () => {
       if (response.data.success) {
         toast.success(response.data.message);
         setData(["", "", "", "", "", ""]);
-        navigate("/reset-password",{
+        navigate("/reset-password", {
           state: {
-            data : response.data,
-            email : location?.state?.email
-          }
-        })
+            data: response.data,
+            email: location?.state?.email,
+          },
+        });
       }
     } catch (error) {
       AxiosToastError(error);

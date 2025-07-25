@@ -12,12 +12,12 @@ import SummaryApi from "../common/SummarApi";
 import AxiosToastError from "../utils/AxiosToastError";
 import successAlert from "../utils/SuccessAlert";
 
-const EditProductAdmin = ({close , data : propsData , fetchProductData }) => {
+const EditProductAdmin = ({ close, data: propsData, fetchProductData }) => {
   const [data, setData] = useState({
     _id: propsData._id,
     name: propsData?.name,
     image: propsData.image,
-    category: propsData.category ,
+    category: propsData.category,
     subCategory: propsData.subCategory,
     unit: propsData.unit,
     stock: propsData.state || propsData.stock,
@@ -130,8 +130,8 @@ const EditProductAdmin = ({close , data : propsData , fetchProductData }) => {
       const { data: responseData } = response;
       if (responseData.success) {
         successAlert(responseData.message);
-        if(close){
-          close()
+        if (close) {
+          close();
         }
         fetchProductData();
         setData({
@@ -166,7 +166,7 @@ const EditProductAdmin = ({close , data : propsData , fetchProductData }) => {
                 size={30}
                 className="text-red-500 hover:text-red-600"
                 onClick={close}
-                />
+              />
             </button>
           </div>
           <div className="grid p-3">

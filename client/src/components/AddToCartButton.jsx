@@ -54,25 +54,25 @@ const AddToCartButton = ({ data }) => {
     console.log("product", product);
   }, [data, cartItem]);
 
-  const increaseQty = async(e) => {
+  const increaseQty = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    const response = await updtateCartItem(cartItemDetailse?._id,qty+1);
-      if(response.success){
-        toast.success("Item added")
-      }
+    const response = await updtateCartItem(cartItemDetailse?._id, qty + 1);
+    if (response.success) {
+      toast.success("Item added");
+    }
   };
 
-  const decreaseQty = async(e) => {
+  const decreaseQty = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (qty === 1) {
       deleteCartItem(cartItemDetailse?._id);
     } else {
       const response = await updtateCartItem(cartItemDetailse?._id, qty - 1);
-            if(response.success){
-        toast.success("delete Item Produact")
+      if (response.success) {
+        toast.success("delete Item Produact");
       }
     }
   };

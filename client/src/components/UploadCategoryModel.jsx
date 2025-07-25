@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummarApi.js";
-import  toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import uploadImage from "../utils/UploadImage";
-import AxiosToastError from "../utils/AxiosToastError"
-const UploadCategoryModel = ({ close , fetchData}) => {
-  const [data , setData] = useState({
+import AxiosToastError from "../utils/AxiosToastError";
+const UploadCategoryModel = ({ close, fetchData }) => {
+  const [data, setData] = useState({
     name: "",
     image: "",
   });
@@ -25,7 +25,7 @@ const UploadCategoryModel = ({ close , fetchData}) => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true);
@@ -34,11 +34,10 @@ const UploadCategoryModel = ({ close , fetchData}) => {
         data: {
           name: data.name,
           image: data.image,
-          
         },
-      })
+      });
       const { data: responseData } = response;
-      if(responseData.success){
+      if (responseData.success) {
         toast.success("Category added successfully");
         setData({
           name: "",
@@ -49,12 +48,11 @@ const UploadCategoryModel = ({ close , fetchData}) => {
       }
       setIsLoading(true);
     } catch (error) {
-      AxiosToastError(error); 
-    }finally{
+      AxiosToastError(error);
+    } finally {
       setIsLoading(false);
     }
   };
-
 
   const handleUploadCategoryImage = async (e) => {
     const file = e.target.files[0];
@@ -63,19 +61,19 @@ const UploadCategoryModel = ({ close , fetchData}) => {
       return;
     }
 
-    const response = await uploadImage(file)
+    const response = await uploadImage(file);
     // const { data: ImageResponse } = response;
-      const ImageResponse = response;
-      if(!ImageResponse?.data?.url){
-        console.error("Image response is not valid", ImageResponse);
-      }
+    const ImageResponse = response;
+    if (!ImageResponse?.data?.url) {
+      console.error("Image response is not valid", ImageResponse);
+    }
 
-    setData((preve) =>{
+    setData((preve) => {
       return {
         ...preve,
-        image: ImageResponse.data.url
+        image: ImageResponse.data.url,
       };
-    })
+    });
   };
 
   return (
@@ -106,18 +104,15 @@ const UploadCategoryModel = ({ close , fetchData}) => {
             <p>Image</p>
             <div className="flex gap-5 flex-col lg:flex-row items-center">
               <div className="border bg-blue-50 h-36 w-full lg:w-36 flex items-center justify-center rounded">
-
-                {
-                  data.image ? (
-                    <img 
+                {data.image ? (
+                  <img
                     src={data.image}
-                    alt="category" 
+                    alt="category"
                     className="h-full w-full object-scale-down"
-                    />
-                  ):(
-                    <span className="text-sm text-neutral-500">No Image</span>
-                  )
-                }
+                  />
+                ) : (
+                  <span className="text-sm text-neutral-500">No Image</span>
+                )}
                 {/* {
                     data.image ? (
                         <img
@@ -141,7 +136,7 @@ const UploadCategoryModel = ({ close , fetchData}) => {
                   Upload Image
                 </div>
                 <input
-                disabled={!data.name}
+                  disabled={!data.name}
                   type="file"
                   name="image"
                   id="uploadCategoryImage"
@@ -151,21 +146,23 @@ const UploadCategoryModel = ({ close , fetchData}) => {
               </label>
             </div>
           </div>
-                 <button
-                    className={`
-                    ${data.name && data.image ? "bg-primary-200 hover:bg-primary-100" : "bg-gray-300 "}
+          <button
+            className={`
+                    ${
+                      data.name && data.image
+                        ? "bg-primary-200 hover:bg-primary-100"
+                        : "bg-gray-300 "
+                    }
                     py-2    
                     font-semibold 
                     `}
-                >Add Category</button>
-
+          >
+            Add Category
+          </button>
         </form>
-
       </div>
     </section>
-   );
+  );
 };
 
 export default UploadCategoryModel;
-
-

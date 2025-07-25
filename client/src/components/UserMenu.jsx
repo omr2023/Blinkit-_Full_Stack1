@@ -42,7 +42,10 @@ const UserMenu = ({ close }) => {
       <div className="font-semibold">My Account</div>
       <div className="text-sm flex items-center gap-2">
         <span className="max-w-52 text-ellipsis line-clamp-1">
-          {user.name || user.mobile} <span className="text-medium text-red-400">{user.role === "ADMIN" ? "(Admin)" : ""}</span>
+          {user.name || user.mobile}{" "}
+          <span className="text-medium text-red-400">
+            {user.role === "ADMIN" ? "(Admin)" : ""}
+          </span>
         </span>
         <Link
           onClick={handleClose}
@@ -55,8 +58,7 @@ const UserMenu = ({ close }) => {
 
       <Divder />
       <div className="text-sm grid gap-1 ">
-
-        { isAdmin(user.role) && (
+        {isAdmin(user.role) && (
           <Link
             onClick={handleClose}
             to={"/dashboard/category"}
@@ -66,9 +68,14 @@ const UserMenu = ({ close }) => {
           </Link>
         )}
 
-        {
-        isAdmin(user.role) && (
-          <Link onClick={handleClose}  to={"/dashboard/subcategory"} className="px-2 hover:bg-orange-200 py-1">Sub Category</Link>
+        {isAdmin(user.role) && (
+          <Link
+            onClick={handleClose}
+            to={"/dashboard/subcategory"}
+            className="px-2 hover:bg-orange-200 py-1"
+          >
+            Sub Category
+          </Link>
         )}
 
         {isAdmin(user.role) && (
@@ -90,7 +97,6 @@ const UserMenu = ({ close }) => {
             Product
           </Link>
         )}
-     
 
         <Link
           onClick={handleClose}

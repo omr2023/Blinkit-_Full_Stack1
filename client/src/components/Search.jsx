@@ -1,37 +1,40 @@
-    import React, { useEffect } from "react";
-    import { useState } from "react";
-    import { FaSearch } from "react-icons/fa";
-    import { Link, useLocation, useNavigate } from "react-router-dom";
-    import { TypeAnimation } from "react-type-animation";
-    import { FaArrowLeft } from "react-icons/fa";
-    import useMobile from "../hooks/useMobile";
-    const Search = () => {
-      const navigate = useNavigate();
-      const location = useLocation();
-      const [isSearchPage, setIsSearchPage] = useState(false);
-      const [isMobile] = useMobile();
-        const params  = useLocation()
-        const searchText = params.search ? params.search.slice(3) : "";
-      useEffect(() => {
-        const isSearch = location.pathname === "/search";
-        setIsSearchPage(isSearch);
-      }, [location]);
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { TypeAnimation } from "react-type-animation";
+import { FaArrowLeft } from "react-icons/fa";
+import useMobile from "../hooks/useMobile";
+const Search = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isSearchPage, setIsSearchPage] = useState(false);
+  const [isMobile] = useMobile();
+  const params = useLocation();
+  const searchText = params.search ? params.search.slice(3) : "";
+  useEffect(() => {
+    const isSearch = location.pathname === "/search";
+    setIsSearchPage(isSearch);
+  }, [location]);
 
-      const redirectToSearchPage = () => {
-        navigate("/search");
-      };
+  const redirectToSearchPage = () => {
+    navigate("/search");
+  };
 
-      const handleOnChange = (e) => {
-        const value = e.target.value;
+  const handleOnChange = (e) => {
+    const value = e.target.value;
 
-        const url = `/search?q=${value}`
-        navigate(url);
-      }
+    const url = `/search?q=${value}`;
+    navigate(url);
+  };
 
   return (
     <div className="w-full  min-w-[300px] lg:min-w-[400px] h-11 lg:h-12 rounded-lg border overflow-hidden flex items-center text-neutral-500 bg-slate-50 group focus-within:border-primary-200">
       {isMobile && isSearchPage ? (
-        <Link to={"/"} className="flex justify-center items-center h-full p-3 ml-1 text-neutral-400 group-focus-within:text-primary-200 bg-white rounded-full shadow-md">
+        <Link
+          to={"/"}
+          className="flex justify-center items-center h-full p-3 ml-1 text-neutral-400 group-focus-within:text-primary-200 bg-white rounded-full shadow-md"
+        >
           <FaArrowLeft size={20} />
         </Link>
       ) : (

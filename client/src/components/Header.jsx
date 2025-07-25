@@ -21,10 +21,10 @@ const Header = () => {
   const navigete = useNavigate();
   const user = useSelector((state) => state?.user);
   const [openUserMeun, setOpenUserMenu] = useState(false);
-  const cartItem = useSelector(state => state.cartItem.cart)
-  const [totalPrice , setTotalPrice ] = useState(0)
-  const [totalQty , setTotalQty ] = useState(0)
-  const [openCartSection , setOpenCartSection] = useState(false)
+  const cartItem = useSelector((state) => state.cartItem.cart);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalQty, setTotalQty] = useState(0);
+  const [openCartSection, setOpenCartSection] = useState(false);
 
   const redirectToLoginPage = () => {
     navigete("/login");
@@ -34,37 +34,38 @@ const Header = () => {
     setOpenUserMenu(false);
   };
 
-  const handleMobileUser = () =>{
-    if(!user._id){
+  const handleMobileUser = () => {
+    if (!user._id) {
       navigete("/login");
-      return 
+      return;
     }
 
-    navigete("/user")
-  }
-    
+    navigete("/user");
+  };
 
+  //total item and total price
 
-        //total item and total price
+  useEffect(() => {
+    const qty = cartItem.reduce((preve, curr) => {
+      const quantity = Number(curr.quantity);
+      return preve + (isNaN(quantity) ? 0 : quantity);
+    }, 0);
+    setTotalQty(qty);
 
-    
- useEffect(() => {
-  const qty = cartItem.reduce((preve, curr) => {
-    const quantity = Number(curr.quantity);
-    return preve + (isNaN(quantity) ? 0 : quantity);
-  }, 0);
-  setTotalQty(qty);
+    const tPrice = cartItem.reduce((preve, curr) => {
+      if (
+        curr.productId &&
+        curr.productId.price != null &&
+        curr.quantity != null
+      ) {
+        return preve + curr.productId.price * curr.quantity;
+      }
+      return preve;
+    }, 0);
+    console.log("price", tPrice);
+    setTotalPrice(tPrice);
+  }, [cartItem]);
 
-  const tPrice = cartItem.reduce((preve, curr) => {
-  if (curr.productId && curr.productId.price != null && curr.quantity != null) {
-    return preve + (curr.productId.price * curr.quantity);
-  }
-  return preve;
-}, 0);
-  console.log("price",tPrice);
-  setTotalPrice(tPrice)
-}, [cartItem]);
-    
   return (
     <header className="h-24 lg:h-20 lg:shadow-md sticky top-0 z-40 flex  flex-col justify-center gap-1 bg-white">
       {!(isSearchPage && isMobile) && (
@@ -96,7 +97,10 @@ const Header = () => {
           {/* login and my cart */}
           <div className="">
             {/* user icons disply in only mobile version */}
-            <button className="text-neutral-600 lg:hidden" onClick={handleMobileUser}>
+            <button
+              className="text-neutral-600 lg:hidden"
+              onClick={handleMobileUser}
+            >
               <FaRegUserCircle size={30} />
             </button>
             {/* Desktop */}
@@ -131,23 +135,23 @@ const Header = () => {
                 </button>
               )}
 
-              <button onClick={()=>setOpenCartSection(true)} className="flex items-center gap-3 bg-green-600 hover:bg-green-700 py-2 px-3 rounded text-white">
+              <button
+                onClick={() => setOpenCartSection(true)}
+                className="flex items-center gap-3 bg-green-600 hover:bg-green-700 py-2 px-3 rounded text-white"
+              >
                 {/* add to cart icons */}
                 <div className=" animate-bounce">
                   <BsCart4 size={26} />
                 </div>
                 <div>
-                  {
-                    cartItem[0] ? (
-                      <div>
-                        <p className="">{totalQty} Items</p>
-                        <p>{formatPrice(totalPrice)}</p>
-                      </div>
-                    ):(
+                  {cartItem[0] ? (
+                    <div>
+                      <p className="">{totalQty} Items</p>
+                      <p>{formatPrice(totalPrice)}</p>
+                    </div>
+                  ) : (
                     <p className=" font-semibold text-sm">My Cart</p>
-                    
-                    )
-                  }
+                  )}
                 </div>
               </button>
             </div>
@@ -158,11 +162,9 @@ const Header = () => {
         <Search />
       </div>
 
-      {
-        openCartSection && (
-            <DisplyCartItem close={()=>setOpenCartSection(false)}/>
-        )
-      }
+      {openCartSection && (
+        <DisplyCartItem close={() => setOpenCartSection(false)} />
+      )}
     </header>
   );
 };
