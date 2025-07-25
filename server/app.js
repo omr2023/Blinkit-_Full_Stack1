@@ -51,10 +51,12 @@ app.use("/api/product" , productRouter)
 app.use("/api/cart",cartRouter)
 app.use("/api/address",addressRouter)
 app.use("/api/order",orderRouter)
+connectDB()
 
+// connectDB().then(()=>{
+//     app.listen(PORT,()=>{
+// console.log("Server is running successfully",PORT)
+// })
+// })
 
-connectDB().then(()=>{
-    app.listen(PORT,()=>{
-console.log("Server is running successfully",PORT)
-})
-})
+module.exports = app;
